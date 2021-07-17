@@ -11,12 +11,21 @@ class SearchList extends React.Component {
   }
 
   componentDidMount() {
-    fetch('https://api.mercadolibre.com/sites/MLB/categories')
-    .then((resolve) => resolve.json())
-    .then((result) => {
-      result.map((item) => ({ ...item, isSelected: false }));
-      this.setState({ term: result });
-    });
+    if(this.tipo = 'normal'){
+      fetch('https://api.mercadolibre.com/sites/MLB/categories')
+      .then((resolve) => resolve.json())
+      .then((result) => {
+        result.map((item) => ({ ...item, isSelected: false }));
+        this.setState({ term: result });
+      });
+    } else {
+      fetch('https://api.mercadolibre.com/sites/MLA/categories')
+      .then((resolve) => resolve.json())
+      .then((result) => {
+        result.map((item) => ({ ...item, isSelected: false }));
+        this.setState({ term: result });
+      });
+    }
   }
 
   trocaIcone(index) {
@@ -65,4 +74,5 @@ export default SearchList;
 
 SearchList.propTypes = PropTypes.shape({
   callback: PropTypes.func,
+  tipo: PropTypes.string,
 }).isRequired;

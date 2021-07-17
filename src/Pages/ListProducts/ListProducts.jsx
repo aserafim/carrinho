@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './ListProducts.css';
@@ -38,6 +38,7 @@ class ListProducts extends Component {
     this.returnParam = this.returnParam.bind(this);
     this.numberCart = this.numberCart.bind(this);
     this.valorCarrinho = this.valorCarrinho.bind(this);
+    this.tipo="normal";
   }
   componentDidMount() {
     this.valorCarrinho();
@@ -105,11 +106,19 @@ class ListProducts extends Component {
     });
   }
 
+  tipoButton(){
+    return this.tipo = "order"
+  }
+
   render() {
     const { value, results, carrinhoCont } = this.state;
     return (
       <div className="maxContain" >
-        <ListFilter callback={this.callback} />
+        <button className="buttonAddCart" 
+        >PRINT</button>
+        <ListFilter 
+            callback={this.callback} 
+            tipo={this.tipo}/>
         <div className="header">
           {ListProducts.caixaCarrinho(carrinhoCont)}
           {this.caixaLupa()}
