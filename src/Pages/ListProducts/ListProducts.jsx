@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './ListProducts.css';
@@ -31,6 +31,7 @@ class ListProducts extends Component {
       valueradio: '',
       valorPesquisa: '',
       carrinhoCont: 0,
+      tipo: "All"
     };
     this.pesquisa = this.pesquisa.bind(this);
     this.callback = this.callback.bind(this);
@@ -38,7 +39,6 @@ class ListProducts extends Component {
     this.returnParam = this.returnParam.bind(this);
     this.numberCart = this.numberCart.bind(this);
     this.valorCarrinho = this.valorCarrinho.bind(this);
-    this.tipo="normal";
   }
   componentDidMount() {
     this.valorCarrinho();
@@ -106,19 +106,20 @@ class ListProducts extends Component {
     });
   }
 
-  tipoButton(){
-    return this.tipo = "order"
-  }
-
   render() {
-    const { value, results, carrinhoCont } = this.state;
+    const { value, results, carrinhoCont, tipo } = this.state;
     return (
       <div className="maxContain" >
         <button className="buttonAddCart" 
-        >PRINT</button>
+        onClick={() => this.setState({ tipo: "All"})}
+        >All</button>
+        <button className="buttonAddCart" 
+        onClick={() => this.setState({ tipo: "Order"})}
+        >Order</button>
+        <p>You clicked {tipo} times</p>
         <ListFilter 
             callback={this.callback} 
-            tipo={this.tipo}/>
+            tipo={tipo}/>
         <div className="header">
           {ListProducts.caixaCarrinho(carrinhoCont)}
           {this.caixaLupa()}

@@ -6,12 +6,14 @@ class SearchList extends React.Component {
     super(props);
     this.state = {
       term: '',
+      tipo: this.tipo
     };
     this.trocaIcone = this.trocaIcone.bind(this);
   }
 
   componentDidMount() {
-    if(this.tipo = 'normal'){
+    const { tipo } = this.state;
+    if(tipo == 'All'){
       fetch('https://api.mercadolibre.com/sites/MLB/categories')
       .then((resolve) => resolve.json())
       .then((result) => {
@@ -46,7 +48,7 @@ class SearchList extends React.Component {
     const { term } = this.state;
     const { callback } = this.props;
     return (
-      <div className="container">{(term !== '') ? term.map((categoria, index) => (
+      <div className="container"> {(term !== '') ? term.map((categoria, index) => (
         <label key={categoria.id} htmlFor={categoria.id} className="labels">{categoria.name}
           <div className="containerCategorias">
             <span>
