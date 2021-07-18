@@ -5,29 +5,12 @@ class SearchList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      term: '',
-      tipo: this.tipo
+      term: ''
     };
     this.trocaIcone = this.trocaIcone.bind(this);
   }
 
   componentDidMount() {
-    const { tipo } = this.state;
-    if(tipo == 'All'){
-      fetch('https://api.mercadolibre.com/sites/MLB/categories')
-      .then((resolve) => resolve.json())
-      .then((result) => {
-        result.map((item) => ({ ...item, isSelected: false }));
-        this.setState({ term: result });
-      });
-    } else {
-      fetch('https://api.mercadolibre.com/sites/MLA/categories')
-      .then((resolve) => resolve.json())
-      .then((result) => {
-        result.map((item) => ({ ...item, isSelected: false }));
-        this.setState({ term: result });
-      });
-    }
   }
 
   trocaIcone(index) {
@@ -47,34 +30,74 @@ class SearchList extends React.Component {
   render() {
     const { term } = this.state;
     const { callback } = this.props;
+    const buttons = ['ALL', 'ORDER'];
+
+    const filter = (button) =>{
+
+      if(button === 'ALL'){
+          fetch('https://api.mercadolibre.com/sites/MLB/categories')
+        .then((resolve) => resolve.json())
+        .then((result) => {
+          result.map((item) => ({ ...item, isSelected: false }));
+          this.setState({ term: result });
+        });
+      } else {
+        fetch('https://api.mercadolibre.com/classified_locations/countries')
+        .then((resolve) => resolve.json())
+        .then((result) => {
+          result.map((item) => ({ ...item, isSelected: false }));
+          this.setState({ term: result });
+        });
+      }
+    }
     return (
-      <div className="container"> {(term !== '') ? term.map((categoria, index) => (
-        <label key={categoria.id} htmlFor={categoria.id} className="labels">{categoria.name}
-          <div className="containerCategorias">
-            <span>
-              <i className="material-icons">
-                { categoria.isSelected ? 'check_box' : 'check_box_outline_blank' }
-              </i>
-            </span>
-            <input
-              className="inputs"
-              id={categoria.id}
-              name="categoria"
-              value={categoria.id}
-              onClick={() => this.trocaIcone(index)}
-              onChange={((e) => callback(e.target.value))}
-              type="checkbox"
-            />
-          </div>
-        </label>
-      )) : term}</div>
+      <div className="container">
+        <Button button={buttons} filter={filter} />
+        <Menu term={term} callback={callback}/>
+      </div>
     );
   }
+}
+
+function Menu({term, callback}) {
+  return (
+    <div className=""> {(term !== '') ? term.map((categoria, index) => (
+            <label key={categoria.id} htmlFor={categoria.id} className="labels">{categoria.name}
+              <div className="containerCategorias">
+                <span>
+                  <i className="material-icons">
+                    { categoria.isSelected ? 'check_box' : 'check_box_outline_blank' }
+                  </i>
+                </span>
+                <input
+                  className="inputs"
+                  id={categoria.id}
+                  name="categoria"
+                  value={categoria.id}
+                  onClick={() => this.trocaIcone(index)}
+                  onChange={((e) => callback(e.target.value))}
+                  type="checkbox"
+                />
+              </div>
+            </label>
+          )) : term}</div>
+  )
+}
+
+function Button({button, filter}) {
+  return (
+      <div className="buttons">
+          {
+              button.map((cat, i)=>{
+                  return <button type="button" className="buttonAddCart"  onClick={()=> filter(cat)}>{cat}</button>
+              })
+          }
+      </div>
+  )
 }
 
 export default SearchList;
 
 SearchList.propTypes = PropTypes.shape({
-  callback: PropTypes.func,
-  tipo: PropTypes.string,
+  callback: PropTypes.func
 }).isRequired;

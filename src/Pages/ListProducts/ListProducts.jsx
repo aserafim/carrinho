@@ -30,8 +30,7 @@ class ListProducts extends Component {
       results: [],
       valueradio: '',
       valorPesquisa: '',
-      carrinhoCont: 0,
-      tipo: "All"
+      carrinhoCont: 0
     };
     this.pesquisa = this.pesquisa.bind(this);
     this.callback = this.callback.bind(this);
@@ -107,19 +106,11 @@ class ListProducts extends Component {
   }
 
   render() {
-    const { value, results, carrinhoCont, tipo } = this.state;
+    const { value, results, carrinhoCont} = this.state;
+
     return (
       <div className="maxContain" >
-        <button className="buttonAddCart" 
-        onClick={() => this.setState({ tipo: "All"})}
-        >All</button>
-        <button className="buttonAddCart" 
-        onClick={() => this.setState({ tipo: "Order"})}
-        >Order</button>
-        <p>You clicked {tipo} times</p>
-        <ListFilter 
-            callback={this.callback} 
-            tipo={tipo}/>
+        <ListFilter callback={this.callback}/>
         <div className="header">
           {ListProducts.caixaCarrinho(carrinhoCont)}
           {this.caixaLupa()}
