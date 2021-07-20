@@ -30,11 +30,11 @@ class SearchList extends React.Component {
   render() {
     const { term } = this.state;
     const { callback } = this.props;
-    const buttons = ['ALL', 'ORDER'];
+    const buttons = ['Todas', 'Nome','Categoria'];
 
     const filter = (button) =>{
 
-      if(button === 'ALL'){
+      if(button === 'Todas'){
           fetch('https://api.mercadolibre.com/sites/MLB/categories')
         .then((resolve) => resolve.json())
         .then((result) => {
@@ -52,16 +52,10 @@ class SearchList extends React.Component {
     }
     return (
       <div className="container">
+        <h1>Lojas</h1>
+        <p> filtrar por: </p>
         <Button button={buttons} filter={filter} />
-        <Menu term={term} callback={callback}/>
-      </div>
-    );
-  }
-}
-
-function Menu({term, callback}) {
-  return (
-    <div className=""> {(term !== '') ? term.map((categoria, index) => (
+        <div className=""> {(term !== '') ? term.map((categoria, index) => (
             <label key={categoria.id} htmlFor={categoria.id} className="labels">{categoria.name}
               <div className="containerCategorias">
                 <span>
@@ -81,7 +75,9 @@ function Menu({term, callback}) {
               </div>
             </label>
           )) : term}</div>
-  )
+      </div>
+    );
+  }
 }
 
 function Button({button, filter}) {

@@ -12,48 +12,13 @@ const initCampos = {
     value: '',
     red: false,
   },
+  sobrenome: {
+    name: 'Sobrenome',
+    value: '',
+    red: false,
+  },
   email: {
     name: 'Email',
-    value: '',
-    red: false,
-  },
-  cpf: {
-    name: 'CPF',
-    value: '',
-    red: false,
-  },
-  tel: {
-    name: 'Telefone',
-    value: '',
-    red: false,
-  },
-  cep: {
-    name: 'CEP',
-    value: '',
-    red: false,
-  },
-  end: {
-    name: 'Endereço',
-    value: '',
-    red: false,
-  },
-  comp: {
-    name: 'Complemento',
-    value: '',
-    red: false,
-  },
-  num: {
-    name: 'Número',
-    value: '',
-    red: false,
-  },
-  cid: {
-    name: 'Cidade',
-    value: '',
-    red: false,
-  },
-  est: {
-    name: 'Estado',
     value: '',
     red: false,
   },
