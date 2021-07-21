@@ -9,17 +9,28 @@ import lupa from './images/lupa.png';
 class ListProducts extends Component {
   static caixaCarrinho(carrinho) {
     return (
-      <div className="container-cart">
-        <Link className="carrinhoCart" to="/shopping-cart">
+      <div className="carrinho-user">
+        <div className="container-cart">
+        <Link className="user" to="/user">
           <img
-            className="carrinho"
-            src="https://image.flaticon.com/icons/svg/126/126083.svg" alt="carrinho de compras"
+            className="user-img"
+            src="https://image.flaticon.com/icons/png/512/456/456212.png" alt="carrinho de compras"
           />
-          <div className="contadorCarrinho">
-            <span className="numero">{carrinho}</span>
-          </div>
         </Link>
       </div>
+        <div className="container-cart">
+          <Link className="carrinhoCart" to="/shopping-cart">
+            <img
+              className="carrinho"
+              src="https://image.flaticon.com/icons/svg/126/126083.svg" alt="carrinho de compras"
+            />
+            <div className="contadorCarrinho">
+              <span className="numero">{carrinho}</span>
+            </div>
+          </Link>
+        </div>
+        
+    </div>
     );
   }
 

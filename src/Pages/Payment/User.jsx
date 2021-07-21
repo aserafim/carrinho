@@ -1,56 +1,41 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Produto from './components/Produto/Produto';
+import Comprador from './components/Comprador/Comprador';
 import Pagamento from './components/Pagamento/Pagamento';
-import ShoppingCart from '../ShoppingCart/ShoppingCart';
 import './style.css';
+import { Link } from 'react-router-dom';
+import backButton from './images/backButton.png';
 
 const initCampos = {
-  pagamento: {
-    name: 'Forma de pagamento',
+  nome: {
+    name: 'Nome',
     value: '',
     red: false,
   },
+  sobrenome: {
+    name: 'Sobrenome',
+    value: '',
+    red: false,
+  },
+  email: {
+    name: 'Email',
+    value: '',
+    red: false,
+  }
 };
 
-function allStorageKeys() {
-  const keys = Object.keys(localStorage);
-  return keys;
-}
-
-function carregaProdutos() {
-  const keys = allStorageKeys();
-  const ids = keys.filter((key) => key.includes('Item'));
-  return ids.map((id) => JSON.parse(localStorage.getItem(id)));
-}
-
-
-function apagaIds() {
-  const keys = allStorageKeys();
-  const ids = keys.filter((key) => key.includes('Item'));
-  ids.forEach((id) => localStorage.removeItem(id));
-  localStorage.removeItem('CartCount');
-}
-
-function verificaIds() {
-  const keys = allStorageKeys();
-  const ids = keys.filter((key) => key.includes('Item'));
-  return !(ids.length === 0);
-}
-
-class Payment extends Component {
+class User extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      campos: { ...initCampos },
-      produtos: carregaProdutos(),
+      campos: { ...initCampos }
     };
     this.submitHandle = this.submitHandle.bind(this);
     this.produtoHandle = this.produtoHandle.bind(this);
   }
 
   componentDidMount() {
-    verificaIds();
   }
 
   submitHandle(e) {
@@ -65,7 +50,7 @@ class Payment extends Component {
       return acc;
     }, true);
     if (verifica) {
-      apagaIds();
+      //apagaIds();
       this.setState({isShow: true})
     }
   }
@@ -97,26 +82,34 @@ class Payment extends Component {
     });
   }
 
+  botaoVolta() {
+    return (
+      <div className="containerButtonReturn">
+        <Link className="buttonReturn" to="/">
+          <img src={backButton} alt="backButton" />
+          <span className="paginaInicial">
+            Pagina Inicial
+          </span>
+        </Link>
+      </div>
+    );
+  }
+
   render() {
-    const { produtos, campos } = this.state;
-    const { pagamento } = campos;
+    const { campos } = this.state;
     return (
       <div className="page_payment">
-        {ShoppingCart.botaoVolta()}
+        {this.botaoVolta()}
         <p>Revise seus produtos</p>
         <form onSubmit={this.submitHandle}>
-          {(verificaIds()) ?
-            <div className="products">
-              {produtos.map((produto) => (
-                <Produto key={produto.id} produto={produto} />
-              ))}
-            </div> : <div />}
-          <Pagamento produtoHandle={this.produtoHandle} pagamento={pagamento} />
+          <div className="comprador">
+            <Comprador produtoHandle={this.produtoHandle} campos={campos} />
+          </div>
           <div className="buttonPagar">
-            <button onClick={this.submitHandle}>Pagar</button>
+            <button onClick={this.submitHandle}>{this.state.isShow ? 'Logout' : 'Login'}</button>
             {this.state.isShow ? 
             <div>
-              <h2>Pago com sucesso </h2>
+              <h2>Logado com sucesso </h2>
             </div> : null}
           </div>
         </form>
@@ -125,10 +118,10 @@ class Payment extends Component {
   }
 }
 
-Payment.propTypes = {
+User.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
 };
 
-export default Payment;  
+export default User;

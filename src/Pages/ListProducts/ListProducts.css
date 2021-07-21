@@ -131,6 +131,18 @@
   width: 100%;
 }
 
+.user-img {
+  width: 100%;
+}
+
+.carrinho-user {
+  align-self: flex-end;
+  animation: carrinho 3s linear 1 normal;
+  display: flex; 
+  justify-content: flex-end;
+}
+
+
 .header .slide {
   background-color: lawngreen;
   position: relative;
