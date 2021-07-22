@@ -30,19 +30,26 @@ class SearchList extends React.Component {
   render() {
     const { term } = this.state;
     const { callback } = this.props;
-    const buttons = ['Todas', 'Nome','Categoria'];
+    const buttons = ['Todas', 'Nome','Atividade'];
 
     const filter = (button) =>{
 
       if(button === 'Todas'){
-          fetch('https://api.mercadolibre.com/sites/MLB/categories')
+          fetch('http://localhost:8080/ontology/lojasPorNome')
+        .then((resolve) => resolve.json())
+        .then((result) => {
+          result.map((item) => ({ ...item, isSelected: false }));
+          this.setState({ term: result });
+        });
+      } else if (button === 'Nome') {
+        fetch('http://localhost:8080/ontology/lojasPorNomeOrderBy')
         .then((resolve) => resolve.json())
         .then((result) => {
           result.map((item) => ({ ...item, isSelected: false }));
           this.setState({ term: result });
         });
       } else {
-        fetch('https://api.mercadolibre.com/classified_locations/countries')
+        fetch('http://localhost:8080/ontology/lojasPorAtividade')
         .then((resolve) => resolve.json())
         .then((result) => {
           result.map((item) => ({ ...item, isSelected: false }));
@@ -56,7 +63,7 @@ class SearchList extends React.Component {
         <p> filtrar por: </p>
         <Button button={buttons} filter={filter} />
         <div className=""> {(term !== '') ? term.map((categoria, index) => (
-            <label key={categoria.id} htmlFor={categoria.id} className="labels">{categoria.name}
+            <label key={categoria.id} htmlFor={categoria.id} className="labels">{categoria.Atividade ? categoria.Atividade+' | ' : null }{categoria.Loja}
               <div className="containerCategorias">
                 <span>
                   <i className="material-icons">

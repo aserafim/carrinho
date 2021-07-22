@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Produto from './components/Produto/Produto';
 import Comprador from './components/Comprador/Comprador';
-import Pagamento from './components/Pagamento/Pagamento';
 import './style.css';
 import { Link } from 'react-router-dom';
 import backButton from './images/backButton.png';
