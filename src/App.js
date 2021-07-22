@@ -6,6 +6,7 @@ import ListProduct from './Pages/ListProducts/ListProducts';
 import ProductDetails from './Pages/ProductDetails/ProductDetails';
 import Payment from './Pages/Payment/Payment';
 import User from './Pages/Payment/User';
+import ListStores from './Pages/ListProducts/ListStores';
 
 class App extends Component {
   constructor(props) {
@@ -29,14 +30,29 @@ class App extends Component {
       <BrowserRouter>
         <Switch>
           <Route
-            exact path="/"
+            exact path="/store-details/:id"
             render={(props) => (
               <ListProduct {...props} banana={this.bananinha} />
+            )}
+          />
+          <Route
+            exact path="/"
+            render={(props) => (
+              <ListStores {...props} banana={this.bananinha} />
             )}
           />
           <Route path="/shopping-cart" component={ShoppingCart} />
           <Route path="/payment" component={Payment} />
           <Route path="/user" component={User} />
+          {/* <Route
+            path="/store-details/:id"
+            render={(props) => {
+              const { objVazio, arrCard } = this.state;
+              return (
+                <CardProduct {...props}  />
+              );
+            }}
+          /> */}
           <Route
             path="/product-details/:id"
             render={(props) => {
