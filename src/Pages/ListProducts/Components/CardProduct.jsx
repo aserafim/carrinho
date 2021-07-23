@@ -4,21 +4,17 @@ import PropTypes from 'prop-types';
 import './CardProduct.css';
 
 function cardLoad(element) {
-  const { shipping: { free_shipping: freeShipping } } = element;
+  //const { shipping: { free_shipping: freeShipping } } = element;
   return (
     <div className="containerTitleCard">
       <div className="titleCard">
-        <h5 className="titleCardtitle">{element.title}</h5>
+        <h5 className="titleCardtitle">{element.offering}</h5>
       </div>
       <div className="containerShipping">
         <div className="containerImg">
-          <img className="cardImage" src={element.thumbnail} alt={element.title} />
+          <img className="cardImage" src="https://picsum.photos/200" alt={element.title} />
         </div>
-        {(freeShipping) ?
-          <div className="shipping">
-            <p>Entrega grátis</p>
-            <i className="material-icons">local_shipping</i>
-          </div> : ''}
+        <p className="numero">{element.Qtd}</p>
       </div>
     </div>
   );
@@ -70,7 +66,7 @@ class CardProduct extends Component {
               {cardLoad(element)}
               <div className="price">
                 <h6>{new Intl.NumberFormat('pt-BR',
-              { style: 'currency', currency: 'BRL' }).format(element.price)}</h6>
+              { style: 'currency', currency: 'BRL' }).format(element.Preco)}</h6>
               </div>
             </Link>
             {this.carregaCardProduct(element, arrCard)}

@@ -38,7 +38,7 @@ class ListProducts extends Component {
     super(props);
     this.state = {
       value: 'Você ainda não realizou uma Busca',
-      results: [],
+      results: '',
       valueradio: '',
       valorPesquisa: '',
       carrinhoCont: 0
@@ -57,14 +57,14 @@ class ListProducts extends Component {
     this.setState({ carrinhoCont: Number(localStorage.getItem('CartCount')) });
   }
   reduceFunction(res) {
-    if (res.results.length === 0) {
-      this.setState({ value: 'Nenhum Produto foi Encontrado' });
-    } else {
+    // if (res.results === 0) {
+    //   this.setState({ value: 'Nenhum Produto foi Encontrado' });
+    // } else {
       this.setState({
         results:
-          res.results.reduce((acc, curr) => [...acc, curr], []),
+          res.results.reduce((offering) => [...offering], []),
       });
-    }
+    // }
   }
   pesquisa(e) {
     const { valueradio } = this.state;
@@ -78,9 +78,12 @@ class ListProducts extends Component {
   callback(value) {
     this.setState({ valueradio: value });
     if (this.state.valorPesquisa === '') {
-      fetch(`https://api.mercadolibre.com/sites/MLB/search?category=${value}`)
+      fetch(`http://localhost:8080/ontology/ofertaPorLojas?loja=${value}`)
         .then((resolve) => resolve.json())
-        .then((res) => { this.reduceFunction(res); });
+        .then((result) => {
+          result.map((item) => ({ ...item }));
+          this.setState({ results: result });
+        });
     }
   }
 
