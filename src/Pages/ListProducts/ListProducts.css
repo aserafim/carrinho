@@ -31,6 +31,41 @@
   width: 20%;
 }
 
+.headerStore {
+  align-items: center;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 1%;
+}
+
+.titleStore {
+  background-color: white;
+  border-radius: 20px;
+  display: flex;
+  font-size: 110%;
+  height: 100px;
+  padding: 0 2%;
+  text-align: center;
+  width: 200px;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.titleStoretitle {
+  align-self: center;
+  display: flex;
+  font-size: 110%;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+}
+
 .inputs {
   appearance: none;
 }

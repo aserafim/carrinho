@@ -4,15 +4,14 @@ import PropTypes from 'prop-types';
 import './CardProduct.css';
 
 function cardLoad(element) {
-  //const { shipping: { free_shipping: freeShipping } } = element;
   return (
     <div className="containerTitleCard">
       <div className="titleCard">
-        <h5 className="titleCardtitle">{element.offering}</h5>
+        <h5 className="titleCardtitle">{element.Produto}</h5>
       </div>
       <div className="containerShipping">
         <div className="containerImg">
-          <img className="cardImage" src="https://picsum.photos/200" alt={element.title} />
+          <img className="cardImage" src={"https://picsum.photos/id/"+element.id+"/200/300"} alt={element.title} />
         </div>
         <p className="numero">{element.Qtd}</p>
       </div>

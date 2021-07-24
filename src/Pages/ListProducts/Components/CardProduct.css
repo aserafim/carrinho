@@ -16,7 +16,6 @@
   flex-direction: column;
   justify-content: space-between;
   margin: 1%;
-  width: 30%;
 }
 
 .cardComplete img {
@@ -48,6 +47,8 @@
 
 .containerTitleCard {
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .buttonAddCart {

@@ -41,7 +41,8 @@ class ListProducts extends Component {
       results: '',
       valueradio: '',
       valorPesquisa: '',
-      carrinhoCont: 0
+      carrinhoCont: 0,
+      mapa: ''
     };
     this.pesquisa = this.pesquisa.bind(this);
     this.callback = this.callback.bind(this);
@@ -57,14 +58,14 @@ class ListProducts extends Component {
     this.setState({ carrinhoCont: Number(localStorage.getItem('CartCount')) });
   }
   reduceFunction(res) {
-    // if (res.results === 0) {
-    //   this.setState({ value: 'Nenhum Produto foi Encontrado' });
-    // } else {
+    if (res.results === 0) {
+      this.setState({ value: 'Nenhum Produto foi Encontrado' });
+    } else {
       this.setState({
         results:
           res.results.reduce((offering) => [...offering], []),
       });
-    // }
+    }
   }
   pesquisa(e) {
     const { valueradio } = this.state;
@@ -112,6 +113,20 @@ class ListProducts extends Component {
     banana(element, arrCard);
   }
 
+  // mudarMapa(value){
+  //   const { mapa } = this.state;
+
+  //   if (value === 'Uaumart'){
+  //     this.setState({ mapa: ulmart });
+  //   }
+  //   return (
+  //     <div className="containerImg">
+  //       <img className="cardImage" src={mapa} alt={mapa}/>
+  //     </div>
+  //   );
+  // }
+
+
   numberCart() {
     this.setState((state) => {
       localStorage.setItem('CartCount', (state.carrinhoCont + 1));
@@ -120,13 +135,24 @@ class ListProducts extends Component {
   }
 
   render() {
-    const { value, results, carrinhoCont} = this.state;
+    const { value, results, carrinhoCont, valueradio} = this.state;
 
     return (
       <div className="maxContain" >
         <ListFilter callback={this.callback}/>
         <div className="header">
           {ListProducts.caixaCarrinho(carrinhoCont)}
+          {valueradio !== '' ? 
+            <div className="headerStore">
+              <div className="titleStore">
+                <h5 className="titleStoretitle">{valueradio}</h5>
+                <a href={"https://www."+valueradio+".com/"}>Visite {valueradio}.com!</a>
+                {/* <div className="containerImg">
+                  <img className="cardImage" src=} alt={mapa}/>
+                </div> */}
+              </div>
+            </div>
+          : null }
           {this.caixaLupa()}
           {(Object.keys(results).length === 0) ?
             <h1>{value}</h1> :
