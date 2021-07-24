@@ -5,6 +5,11 @@ import './ListProducts.css';
 import ListFilter from './Components/ListFilter';
 import CardProduct from './Components/CardProduct';
 import lupa from './images/lupa.png';
+import uaumart from './images/Mapa_Uaumart.jpg';
+import bq from './images/Mapa_Burger.jpg';
+import capi from './images/Mapa_Cappivaras.jpg';
+import moon from './images/Mapa_Moonbucks.jpg';
+import maga from './images/Mapa_Magazine.jpg';
 
 class ListProducts extends Component {
   static caixaCarrinho(carrinho) {
@@ -41,8 +46,7 @@ class ListProducts extends Component {
       results: '',
       valueradio: '',
       valorPesquisa: '',
-      carrinhoCont: 0,
-      mapa: ''
+      carrinhoCont: 0
     };
     this.pesquisa = this.pesquisa.bind(this);
     this.callback = this.callback.bind(this);
@@ -113,18 +117,29 @@ class ListProducts extends Component {
     banana(element, arrCard);
   }
 
-  // mudarMapa(value){
-  //   const { mapa } = this.state;
-
-  //   if (value === 'Uaumart'){
-  //     this.setState({ mapa: ulmart });
-  //   }
-  //   return (
-  //     <div className="containerImg">
-  //       <img className="cardImage" src={mapa} alt={mapa}/>
-  //     </div>
-  //   );
-  // }
+  mudarMapa(value){
+    if (value === 'Uaumart'){
+      return (
+        <img className="cardMapa" src={uaumart} alt={uaumart}/>
+      );
+    } else  if (value === 'Moonbucks'){
+      return (
+        <img className="cardMapa" src={moon} alt={moon}/>
+      );
+    } else  if (value === 'Cappivaras'){
+      return (
+        <img className="cardMapa" src={capi} alt={capi}/>
+      );
+    } else  if (value === 'Burger Queen'){
+      return (
+        <img className="cardMapa" src={bq} alt={bq}/>
+      );
+    } else  if (value === 'Magazine Loiza'){
+      return (
+        <img className="cardMapa" src={maga} alt={maga}/>
+      );
+    }
+  }
 
 
   numberCart() {
@@ -146,11 +161,13 @@ class ListProducts extends Component {
             <div className="headerStore">
               <div className="titleStore">
                 <h5 className="titleStoretitle">{valueradio}</h5>
-                <a href={"https://www."+valueradio+".com/"}>Visite {valueradio}.com!</a>
-                {/* <div className="containerImg">
-                  <img className="cardImage" src=} alt={mapa}/>
-                </div> */}
+                <Link to={`/store/${valueradio}`} target="_blank">
+                  {'Visite www.'+valueradio+'.com'}
+                </Link>
               </div>
+              <div className="containerImg">
+              {this.mudarMapa(valueradio)}
+                </div>
             </div>
           : null }
           {this.caixaLupa()}

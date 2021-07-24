@@ -6,6 +6,7 @@ import ListProduct from './Pages/ListProducts/ListProducts';
 import ProductDetails from './Pages/ProductDetails/ProductDetails';
 import Payment from './Pages/Payment/Payment';
 import User from './Pages/Payment/User';
+import Store from './Pages/ListProducts/Components/Store'
 
 class App extends Component {
   constructor(props) {
@@ -43,6 +44,15 @@ class App extends Component {
               const { objVazio, arrCard } = this.state;
               return (
                 <ProductDetails {...props} passaObj={objVazio} passaArr={arrCard} />
+              );
+            }}
+          />
+           <Route
+            path="/store/:id"
+            render={(props) => {
+              const { objVazio, arrCard } = this.state;
+              return (
+                <Store {...props} passaObj={objVazio} passaArr={arrCard} />
               );
             }}
           />

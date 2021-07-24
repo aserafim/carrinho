@@ -1,0 +1,25 @@
+.payment_comp_produto {
+  align-items: center;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 1% 0;
+}
+
+.payment_comp_produto div {
+  display: flex;
+  margin: 2%;
+}
+
+.payment_comp_produto > img {
+  width: 10%;
+}
+
+.payment_comp_produto > div > p {
+  margin: 0 auto;
+}
+
+.payment_comp_produto div > strong {
+  margin-right: 3px;
+}

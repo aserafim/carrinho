@@ -27,7 +27,8 @@ class User extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      campos: { ...initCampos }
+      campos: { ...initCampos },
+      result:''
     };
     this.submitHandle = this.submitHandle.bind(this);
     this.produtoHandle = this.produtoHandle.bind(this);
@@ -48,8 +49,14 @@ class User extends Component {
       return acc;
     }, true);
     if (verifica) {
-      //apagaIds();
       this.setState({isShow: true})
+
+      fetch('http://localhost:8080/ontology/usuarioPorAccountName?accountName=po.libio')
+      .then((resolve) => resolve.json())
+      .then((result) => {
+        result.map((item) => ({ ...item, isSelected: false }));
+        this.setState({ result: result });
+      });
     }
   }
 
@@ -94,7 +101,8 @@ class User extends Component {
   }
 
   render() {
-    const { campos } = this.state;
+    const { campos, result } = this.state;
+    
     return (
       <div className="page_payment">
         {this.botaoVolta()}
@@ -107,7 +115,16 @@ class User extends Component {
             <button onClick={this.submitHandle}>{this.state.isShow ? 'Logout' : 'Login'}</button>
             {this.state.isShow ? 
             <div>
-              <h2>Logado com sucesso </h2>
+              {(result !== '') ? result.map((usuario, index) => (
+                // Object.keys(campos).reduce((acc, key) => {
+                  <div>
+                  <h1>{'Logado com sucesso'}</h1>
+                  <p>{'Account: '+ usuario.Account}</p>
+                  <p>{ 'Nome: '+ usuario.Nome }</p>
+                  <p>{ 'Surname: '+ usuario.Surname}</p>
+                  </div>
+                // }, true)
+              )): result}
             </div> : null}
           </div>
         </form>
