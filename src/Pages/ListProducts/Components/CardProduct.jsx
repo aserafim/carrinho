@@ -65,7 +65,7 @@ class CardProduct extends Component {
               {cardLoad(element)}
               <div className="price">
                 <h6>{new Intl.NumberFormat('pt-BR',
-              { style: 'currency', currency: 'BRL' }).format(element.Preco)}</h6>
+              { style: 'currency', currency: 'BRL' }).format(element.price)}</h6>
               </div>
             </Link>
             {this.carregaCardProduct(element, arrCard)}

@@ -27,6 +27,14 @@ function valorProduto(price) {
 }
 
 function finalizaCompra() {
+
+  // fetch('http://localhost:8080/ontology/inserirCarrinho?carrinho=carrinho_3')
+  // .then((resolve) => resolve.json())
+  // .then((result) => {
+  //   result.map((item) => ({ ...item, isSelected: false }));
+  //   this.setState({ term: result });
+  // });
+
   return (
     <div className="buttonFinaliza">
       <Link to={'/payment'}>
@@ -79,6 +87,7 @@ export default class ShoppingCart extends Component {
     this.state = {
       load: false,
       items: [],
+      term: ''
     };
     this.atualizaState = this.atualizaState.bind(this);
     this.carregaProdutos = this.carregaProdutos.bind(this);
