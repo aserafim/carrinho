@@ -151,7 +151,6 @@ class ListProducts extends Component {
 
   render() {
     const { value, results, carrinhoCont, valueradio} = this.state;
-
     return (
       <div className="maxContain" >
         <ListFilter callback={this.callback}/>

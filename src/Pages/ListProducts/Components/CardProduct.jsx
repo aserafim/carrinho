@@ -39,13 +39,14 @@ class CardProduct extends Component {
   }
 
   carregaCardProduct(element, arrCard) {
+    console.log("carregaCardProduct => ", element);
     return (
       <div>
         <button
           className="buttonAddCart"
           value={element.id}
           onClick={(event) => {
-            CardProduct.adicionaCart(event.target.value, arrCard, 1);
+            CardProduct.adicionaCart(element.id, arrCard, 1);
             this.props.numberCart();
           }}
         >
@@ -60,7 +61,8 @@ class CardProduct extends Component {
     return (
       <div className="containCard">
         {arrCard.map((element) =>
-          <div className="cardComplete" key={element.id}>
+          {
+            return (<div className="cardComplete" key={element.id}>
             <Link className="label" to={`/product-details/${element.id}`} onClick={() => retornaParam(element, arrCard)} >
               {cardLoad(element)}
               <div className="price">
@@ -69,7 +71,7 @@ class CardProduct extends Component {
               </div>
             </Link>
             {this.carregaCardProduct(element, arrCard)}
-          </div>,
+          </div>)},
         )}
       </div>
     );
