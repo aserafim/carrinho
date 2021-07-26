@@ -8,18 +8,13 @@ import backButton from './images/backButton.png';
 import { AuthConsumer } from '../../context/authContext';
 
 const initCampos = {
-  nome: {
-    name: 'Nome',
+  usuario: {
+    name: 'Usuario',
     value: '',
     red: false,
   },
-  sobrenome: {
-    name: 'Sobrenome',
-    value: '',
-    red: false,
-  },
-  email: {
-    name: 'Email',
+  senha: {
+    name: 'Senha',
     value: '',
     red: false,
   }
@@ -53,12 +48,16 @@ class User extends Component {
     if (verifica) {
       this.setState({isShow: true})
 
-      fetch('http://localhost:8080/ontology/usuarioPorAccountName?accountName=po.libio')
+      fetch('http://localhost:8080/ontology/usuarioPorAccountName?accountName='+campos2.usuario.value)
       .then((resolve) => resolve.json())
       .then((result) => {
         result.map((item) => ({ ...item, isSelected: false }));
         this.setState({ result: result });
-        setLoggedIn(true);
+        if (result !== '') {
+          setLoggedIn(true);
+        } else {
+          setLoggedIn(false);
+        }
       });
     }
   }
@@ -121,14 +120,12 @@ class User extends Component {
                   {this.state.isShow ? 
                   <div>
                     {(result !== '') ? result.map((usuario, index) => (
-                      // Object.keys(campos).reduce((acc, key) => {
                         <div>
                         <h1>{'Logado com sucesso'}</h1>
                         <p>{'Account: '+ usuario.Account}</p>
                         <p>{ 'Nome: '+ usuario.Nome }</p>
                         <p>{ 'Surname: '+ usuario.Surname}</p>
                         </div>
-                      // }, true)
                     )): result}
                   </div> : null}
                 </div>
