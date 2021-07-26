@@ -11,8 +11,10 @@ import capi from './images/Mapa_Cappivaras.jpg';
 import moon from './images/Mapa_Moonbucks.jpg';
 import maga from './images/Mapa_Magazine.jpg';
 
+import { AuthConsumer } from '../../context/authContext';
+
 class ListProducts extends Component {
-  static caixaCarrinho(carrinho) {
+  static caixaCarrinho(carrinho, logado) {
     return (
       <div className="carrinho-user">
         <div className="container-cart">
@@ -24,7 +26,7 @@ class ListProducts extends Component {
         </Link>
       </div>
         <div className="container-cart">
-          <Link className="carrinhoCart" to="/shopping-cart">
+          {logado ? (<Link className="carrinhoCart" to="/shopping-cart">
             <img
               className="carrinho"
               src="https://image.flaticon.com/icons/svg/126/126083.svg" alt="carrinho de compras"
@@ -32,7 +34,26 @@ class ListProducts extends Component {
             <div className="contadorCarrinho">
               <span className="numero">{carrinho}</span>
             </div>
-          </Link>
+          </Link>) : (
+            <button onClick={() => { alert('Usuário não logado') }} className="carrinhoCart botaoTransparente" type="button">
+              <img
+                className="carrinho"
+                src="https://image.flaticon.com/icons/svg/126/126083.svg" alt="carrinho de compras"
+              />
+              <div className="contadorCarrinho">
+                <span className="numero">{carrinho}</span>
+              </div>
+            </button>
+          )}
+          {/* <Link className="carrinhoCart" to="/shopping-cart">
+            <img
+              className="carrinho"
+              src="https://image.flaticon.com/icons/svg/126/126083.svg" alt="carrinho de compras"
+            />
+            <div className="contadorCarrinho">
+              <span className="numero">{carrinho}</span>
+            </div>
+          </Link> */}
         </div>
         
     </div>
@@ -46,7 +67,7 @@ class ListProducts extends Component {
       results: '',
       valueradio: '',
       valorPesquisa: '',
-      carrinhoCont: 0
+      carrinhoCont: 0,
     };
     this.pesquisa = this.pesquisa.bind(this);
     this.callback = this.callback.bind(this);
@@ -151,35 +172,42 @@ class ListProducts extends Component {
 
   render() {
     const { value, results, carrinhoCont, valueradio} = this.state;
+
     return (
-      <div className="maxContain" >
-        <ListFilter callback={this.callback}/>
-        <div className="header">
-          {ListProducts.caixaCarrinho(carrinhoCont)}
-          {valueradio !== '' ? 
-            <div className="headerStore">
-              <div className="titleStore">
-                <h5 className="titleStoretitle">{valueradio}</h5>
-                <Link to={`/store/${valueradio}`} target="_blank">
-                  {'Visite www.'+valueradio+'.com'}
-                </Link>
+      <AuthConsumer>
+        {(props) => {
+          return (
+            <div className="maxContain" >
+              <ListFilter callback={this.callback}/>
+              <div className="header">
+                {ListProducts.caixaCarrinho(carrinhoCont, props.loggedIn)}
+                {valueradio !== '' ? 
+                  <div className="headerStore">
+                    <div className="titleStore">
+                      <h5 className="titleStoretitle">{valueradio}</h5>
+                      <Link to={`/store/${valueradio}`} target="_blank">
+                        {'Visite www.'+valueradio+'.com'}
+                      </Link>
+                    </div>
+                    <div className="containerImg">
+                    {this.mudarMapa(valueradio)}
+                      </div>
+                  </div>
+                : null }
+                {this.caixaLupa()}
+                {(Object.keys(results).length === 0) ?
+                  <h1>{value}</h1> :
+                  <CardProduct
+                    arrCard={results}
+                    numberCart={this.numberCart}
+                    retornaParam={this.returnParam}
+                  />
+                }
               </div>
-              <div className="containerImg">
-              {this.mudarMapa(valueradio)}
-                </div>
             </div>
-          : null }
-          {this.caixaLupa()}
-          {(Object.keys(results).length === 0) ?
-            <h1>{value}</h1> :
-            <CardProduct
-              arrCard={results}
-              numberCart={this.numberCart}
-              retornaParam={this.returnParam}
-            />
-          }
-        </div>
-      </div>
+          )
+        }}
+      </AuthConsumer>
     );
   }
 }

@@ -5,6 +5,8 @@ import './style.css';
 import { Link } from 'react-router-dom';
 import backButton from './images/backButton.png';
 
+import { AuthConsumer } from '../../context/authContext';
+
 const initCampos = {
   nome: {
     name: 'Nome',
@@ -37,7 +39,7 @@ class User extends Component {
   componentDidMount() {
   }
 
-  submitHandle(e) {
+  submitHandle(e, setLoggedIn) {
     e.preventDefault();
     const campos2 = this.state.campos;
     const verifica = Object.keys(campos2).reduce((acc, key) => {
@@ -56,6 +58,7 @@ class User extends Component {
       .then((result) => {
         result.map((item) => ({ ...item, isSelected: false }));
         this.setState({ result: result });
+        setLoggedIn(true);
       });
     }
   }
@@ -102,33 +105,38 @@ class User extends Component {
 
   render() {
     const { campos, result } = this.state;
-    
     return (
-      <div className="page_payment">
-        {this.botaoVolta()}
-        <p>Revise seus produtos</p>
-        <form onSubmit={this.submitHandle}>
-          <div className="comprador">
-            <Comprador produtoHandle={this.produtoHandle} campos={campos} />
-          </div>
-          <div className="buttonPagar">
-            <button onClick={this.submitHandle}>{this.state.isShow ? 'Logout' : 'Login'}</button>
-            {this.state.isShow ? 
-            <div>
-              {(result !== '') ? result.map((usuario, index) => (
-                // Object.keys(campos).reduce((acc, key) => {
+      <AuthConsumer>
+        {(props) => {
+          return (
+            <div className="page_payment">
+              {this.botaoVolta()}
+              <p>Revise seus produtos</p>
+              <form onSubmit={(e) => { this.submitHandle(e, props.setLoggedIn) }}>
+                <div className="comprador">
+                  <Comprador produtoHandle={this.produtoHandle} campos={campos} />
+                </div>
+                <div className="buttonPagar">
+                  <button onClick={(e) => { this.submitHandle(e, props.setLoggedIn) }}>{this.state.isShow ? 'Logout' : 'Login'}</button>
+                  {this.state.isShow ? 
                   <div>
-                  <h1>{'Logado com sucesso'}</h1>
-                  <p>{'Account: '+ usuario.Account}</p>
-                  <p>{ 'Nome: '+ usuario.Nome }</p>
-                  <p>{ 'Surname: '+ usuario.Surname}</p>
-                  </div>
-                // }, true)
-              )): result}
-            </div> : null}
-          </div>
-        </form>
-      </div>
+                    {(result !== '') ? result.map((usuario, index) => (
+                      // Object.keys(campos).reduce((acc, key) => {
+                        <div>
+                        <h1>{'Logado com sucesso'}</h1>
+                        <p>{'Account: '+ usuario.Account}</p>
+                        <p>{ 'Nome: '+ usuario.Nome }</p>
+                        <p>{ 'Surname: '+ usuario.Surname}</p>
+                        </div>
+                      // }, true)
+                    )): result}
+                  </div> : null}
+                </div>
+              </form>
+            </div>
+          )
+        }}
+      </AuthConsumer>
     );
   }
 }
