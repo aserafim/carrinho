@@ -4,17 +4,17 @@ import './style.css';
 
 class Produto extends Component {
   render() {
-    const { thumbnail, title, price, count } = this.props.produto;
+    const { id, price, count, Produto } = this.props.produto;
     return (
       <div className="payment_comp_produto">
-        <img src={thumbnail} alt="" />
+        <img src={"https://picsum.photos/id/"+id+"/200/300"} alt="" />
         <div>
           <strong>unid:</strong>
           <p>{count}</p>
         </div>
         <div>
           <strong>produto:</strong>
-          <p>{title}</p>
+          <p>{Produto}</p>
         </div>
         <div>
           <strong>preço:</strong>

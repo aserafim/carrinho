@@ -20,7 +20,7 @@ function cardLoad(element) {
 }
 
 class CardProduct extends Component {
-  static adicionaCart(idParam, arrCard, state) {
+  static adicionaCart(element, idParam, arrCard, state) {
     const produto = arrCard.find((card) => card.id === idParam);
     if (localStorage.getItem(`Item${idParam}`) === null) {
       localStorage
@@ -31,6 +31,10 @@ class CardProduct extends Component {
       const lS = { ...objKeyInfo, count: objKeyInfo.count += state };
       localStorage.setItem(`Item${idParam}`, JSON.stringify(lS));
     }
+
+  
+    fetch('http://localhost:8080/ontology/inserirOfertaNoCarrinho?carrinho=carrinho_1&oferta='+element.offering)
+    .then((resolve) => resolve.json())
   }
 
   constructor(props) {
@@ -46,7 +50,7 @@ class CardProduct extends Component {
           className="buttonAddCart"
           value={element.id}
           onClick={(event) => {
-            CardProduct.adicionaCart(element.id, arrCard, 1);
+            CardProduct.adicionaCart(element, element.id, arrCard, 1);
             this.props.numberCart();
           }}
         >

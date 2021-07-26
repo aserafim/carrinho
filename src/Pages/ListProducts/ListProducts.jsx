@@ -63,7 +63,7 @@ class ListProducts extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 'Você ainda não realizou uma Busca',
+      value: 'Bem vindo ao Centro Comercial Patio Plaza Boulevard ',
       results: '',
       valueradio: '',
       valorPesquisa: '',
@@ -77,6 +77,9 @@ class ListProducts extends Component {
     this.valorCarrinho = this.valorCarrinho.bind(this);
   }
   componentDidMount() {
+    fetch('http://localhost:8080/ontology/inserirCarrinho1')
+    .then((resolve) => resolve.json())
+
     this.valorCarrinho();
   }
   valorCarrinho() {
@@ -181,7 +184,7 @@ class ListProducts extends Component {
               <ListFilter callback={this.callback}/>
               <div className="header">
                 {ListProducts.caixaCarrinho(carrinhoCont, props.loggedIn)}
-                {valueradio !== '' ? 
+                {valueradio !== '' ?
                   <div className="headerStore">
                     <div className="titleStore">
                       <h5 className="titleStoretitle">{valueradio}</h5>
@@ -194,7 +197,6 @@ class ListProducts extends Component {
                       </div>
                   </div>
                 : null }
-                {this.caixaLupa()}
                 {(Object.keys(results).length === 0) ?
                   <h1>{value}</h1> :
                   <CardProduct

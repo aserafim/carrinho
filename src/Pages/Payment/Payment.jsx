@@ -44,6 +44,7 @@ class Payment extends Component {
     this.state = {
       campos: { ...initCampos },
       produtos: carregaProdutos(),
+      term: ''
     };
     this.submitHandle = this.submitHandle.bind(this);
     this.produtoHandle = this.produtoHandle.bind(this);
@@ -53,7 +54,8 @@ class Payment extends Component {
     verificaIds();
   }
 
-  submitHandle(e) {
+  async submitHandle(e) {
+    //const { produtos } = this.state;
     e.preventDefault();
     const campos2 = this.state.campos;
     const verifica = Object.keys(campos2).reduce((acc, key) => {
@@ -67,6 +69,17 @@ class Payment extends Component {
     if (verifica) {
       apagaIds();
       this.setState({isShow: true})
+
+      // await  fetch('http://localhost:8080/ontology/inserirCarrinho1')
+      // .then((resolve) => resolve.json())
+
+      await fetch('http://localhost:8080/ontology/inserirObjetoCompra?cliente=Client_1&carrinho=carrinho_1')
+      .then((resolve) => resolve.json())
+
+      // await produtos.map(async (produto) => {
+      //   await fetch('http://localhost:8080/ontology/inserirOfertaNoCarrinho?carrinho=carrinho_1&oferta='+produto.offering)
+      //   .then((resolve) => resolve.json())
+      // })
     }
   }
 
@@ -100,6 +113,7 @@ class Payment extends Component {
   render() {
     const { produtos, campos } = this.state;
     const { pagamento } = campos;
+
     return (
       <div className="page_payment">
         {ShoppingCart.botaoVolta()}

@@ -5,14 +5,14 @@ import emptyShopCar from './images/empty_car.svg';
 import '../ShoppingCart/ShoppingCart.css';
 import backButton from './images/backButton.png';
 
-function carregaImagemTitulo(title, image) {
+function carregaImagemTitulo(Produto, id) {
   return (
     <div className="containerImagemTitulo">
       <div className="containerimagem">
-        <img src={image} alt={title} />
+      <img className="cardImage" src={"https://picsum.photos/id/"+id+"/200/300"} alt={Produto} />
       </div>
       <div className="containertitulo">
-        <p>{title}</p>
+        <p>{Produto}</p>
       </div>
     </div>
   );
@@ -27,13 +27,6 @@ function valorProduto(price) {
 }
 
 function finalizaCompra() {
-
-  // fetch('http://localhost:8080/ontology/inserirCarrinho?carrinho=carrinho_3')
-  // .then((resolve) => resolve.json())
-  // .then((result) => {
-  //   result.map((item) => ({ ...item, isSelected: false }));
-  //   this.setState({ term: result });
-  // });
 
   return (
     <div className="buttonFinaliza">
@@ -116,7 +109,7 @@ export default class ShoppingCart extends Component {
     }
   }
 
-  clearProduto(id) {
+  clearProduto(id, offering) {
     return (
       <button
         className="SomeAndRemove"
@@ -132,6 +125,12 @@ export default class ShoppingCart extends Component {
           this.setState((state) => ({
             items: state.items,
           }));
+          fetch('http://localhost:8080/ontology/deletarOfertaNoCarrinho?oferta='+offering)
+          .then((resolve) => resolve.json())
+          .then((result) => {
+            result.map((item) => ({ ...item, isSelected: false }));
+            this.setState({ term: result });
+          });
         })}
       >
         <i className="material-icons">
@@ -168,11 +167,11 @@ export default class ShoppingCart extends Component {
   }
 
   carregaProdutos(items, index) {
-    const { title, price, thumbnail, id } = items;
+    const { price, id , Produto, offering} = items;
     return (
       <div className="containerCarrega" key={index}>
-        {this.clearProduto(id)}
-        {carregaImagemTitulo(title, thumbnail)}
+        {this.clearProduto(id, offering)}
+        {carregaImagemTitulo(Produto, id)}
         <div className="containerBotoes">
           <div className="somaReduz">
             <button
