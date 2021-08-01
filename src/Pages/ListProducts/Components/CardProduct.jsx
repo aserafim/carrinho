@@ -21,6 +21,7 @@ function cardLoad(element) {
 
 class CardProduct extends Component {
   static adicionaCart(element, idParam, arrCard, state) {
+      
     const produto = arrCard.find((card) => card.id === idParam);
     if (localStorage.getItem(`Item${idParam}`) === null) {
       localStorage
@@ -32,18 +33,31 @@ class CardProduct extends Component {
       localStorage.setItem(`Item${idParam}`, JSON.stringify(lS));
     }
 
-  
     fetch('http://localhost:8080/ontology/inserirOfertaNoCarrinho?carrinho=carrinho_1&oferta='+element.offering)
+    .then((resolve) => resolve.json());
+  }
+
+  request(element){
+    fetch('http://localhost:8080/ontology/ofertaPorCategoria?categoria='+element.Categoria)
     .then((resolve) => resolve.json())
+        .then((result) => {
+          result.map((item) => ({ ...item, isSelected: false }));
+          this.setState({ term: result });
+        }); 
   }
 
   constructor(props) {
     super(props);
+    this.state = {
+      term: '',
+      categoria: ''
+    };
     this.carregaCardProduct = this.carregaCardProduct.bind(this);
   }
 
   carregaCardProduct(element, arrCard) {
     console.log("carregaCardProduct => ", element);
+    
     return (
       <div>
         <button
@@ -51,7 +65,7 @@ class CardProduct extends Component {
           value={element.id}
           onClick={(event) => {
             CardProduct.adicionaCart(element, element.id, arrCard, 1);
-            this.props.numberCart();
+            this.props.numberCart(); 
           }}
         >
           Adicionar no Carrinho
@@ -60,8 +74,14 @@ class CardProduct extends Component {
     );
   }
 
+  componentDidMount() {
+    const { arrCard} = this.props;
+    this.request(arrCard[0]);
+  }
+
   cardProduct() {
     const { arrCard, retornaParam} = this.props;
+    
     return (
       <div className="containCard">
         {arrCard.map((element) =>
@@ -77,13 +97,41 @@ class CardProduct extends Component {
             {this.carregaCardProduct(element, arrCard)}
           </div>)},
         )}
+        
+      </div>
+    );
+  }
+
+  cardRelated() {
+    const { term } = this.state;
+
+    return (
+      <div className="containRelated">
+        {(term !== '') ? <h1> Você também pode se interessar por:</h1>: null }
+        {(term !== '') ? term.map((element) =>
+          {
+            return (
+            <div className="cardComplete" key={element.id}>
+              {cardLoad(element)}
+              <p>{element.Nome}</p>
+              <div className="price">
+                <h6>{new Intl.NumberFormat('pt-BR',
+              { style: 'currency', currency: 'BRL' }).format(element.price)}</h6>
+              </div>
+            {this.carregaCardProduct(element, term)}
+          </div>)},
+        ): term }
       </div>
     );
   }
 
   render() {
     return (
-      this.cardProduct()
+      <div>
+      {this.cardProduct()}
+      {this.cardRelated()}
+      </div>
+      
     );
   }
 }

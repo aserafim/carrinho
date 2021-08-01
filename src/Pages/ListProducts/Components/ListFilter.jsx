@@ -35,7 +35,7 @@ class SearchList extends React.Component {
     const filter = (button) =>{
 
       if(button === 'Todas'){
-          fetch('http://localhost:8080/ontology/lojasPorNome')
+        fetch('http://localhost:8080/ontology/lojasPorNome')
         .then((resolve) => resolve.json())
         .then((result) => {
           result.map((item) => ({ ...item, isSelected: false }));
