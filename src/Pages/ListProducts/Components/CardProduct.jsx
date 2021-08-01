@@ -61,7 +61,7 @@ class CardProduct extends Component {
   }
 
   cardProduct() {
-    const { arrCard, retornaParam } = this.props;
+    const { arrCard, retornaParam} = this.props;
     return (
       <div className="containCard">
         {arrCard.map((element) =>

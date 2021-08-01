@@ -45,15 +45,7 @@ class ListProducts extends Component {
               </div>
             </button>
           )}
-          {/* <Link className="carrinhoCart" to="/shopping-cart">
-            <img
-              className="carrinho"
-              src="https://image.flaticon.com/icons/svg/126/126083.svg" alt="carrinho de compras"
-            />
-            <div className="contadorCarrinho">
-              <span className="numero">{carrinho}</span>
-            </div>
-          </Link> */}
+
         </div>
         
     </div>

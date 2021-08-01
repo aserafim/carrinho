@@ -76,7 +76,7 @@ class SearchList extends React.Component {
                   name="categoria"
                   value={categoria.Loja}
                   onClick={() => this.trocaIcone(index)}
-                  onChange={((e) => callback(e.target.value))}
+                  onChange={((e) => callback(e.target.value, categoria.Atividade))}
                   type="checkbox"
                 />
               </div>

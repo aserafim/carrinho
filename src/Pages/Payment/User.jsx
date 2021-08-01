@@ -46,8 +46,6 @@ class User extends Component {
       return acc;
     }, true);
     if (verifica) {
-      this.setState({isShow: true})
-
       fetch('http://localhost:8080/ontology/usuarioPorAccountName?accountName='+campos2.usuario.value)
       .then((resolve) => resolve.json())
       .then((result) => {
@@ -55,8 +53,10 @@ class User extends Component {
         this.setState({ result: result });
         if (result !== '') {
           setLoggedIn(true);
+          this.setState({isShow: true})
         } else {
           setLoggedIn(false);
+          this.setState({isShow: false})
         }
       });
     }
